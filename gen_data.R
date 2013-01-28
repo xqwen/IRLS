@@ -17,5 +17,5 @@ write.table(file="test.dat",t(dX), quote = FALSE, append=TRUE, sep=" ",row.names
 write.table(file="test.r.dat",cbind(Y.tr,X.tr),quote = FALSE, append=FALSE, sep=" ",row.names=FALSE, col.names=FALSE)
 
 
-glm(Y.tr~X.tr,family="poisson")
+summary(glm(Y.tr~X.tr,family="poisson"))
 

@@ -18,8 +18,19 @@ void controller::fit_poisson(){
   irls.load_data(pars.pheno_vec[0], pars.geno_vec);
   irls.fit_model();
   vector<double> coev = irls.get_fit_coef();
+  vector<double> sev = irls.get_stderr();
+  
+  printf("coef: "); 
   for(int i=0;i<coev.size();i++){
     printf("%7.5f  ",coev[i]);
   }
   printf("\n");
+  
+  printf("  se: "); 
+  for(int i=0;i<sev.size();i++){
+    printf("%7.5f  ",sev[i]);
+  }
+  printf("\n");
+  
+  
 }

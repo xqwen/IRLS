@@ -18,7 +18,7 @@ class IRLS {
 
   LinkFunc *link;
   
-  
+  gsl_matrix *VB;
 
   
  public:
@@ -28,6 +28,13 @@ class IRLS {
   void load_data(vector<double> & yv, vector<vector<double> > &Xv);
   void fit_model();
   vector<double> get_fit_coef();
+  vector<double> get_stderr();
+
+ private:
+  void compute_variance(gsl_vector *w);
+
+
+
 };
 
 #endif

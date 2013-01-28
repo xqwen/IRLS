@@ -5,6 +5,8 @@ using namespace std;
 #include <gsl/gsl_multifit.h>
 #include <gsl/gsl_matrix.h>
 #include <gsl/gsl_vector.h>
+#include <gsl/gsl_blas.h>
+#include <gsl/gsl_linalg.h>
 #include <vector>
 #include "IRLS.h"
 
@@ -15,6 +17,7 @@ IRLS::IRLS(const char * link_type){
     link = new LogLink();
   }
   fit_coef = 0;
+  VB = 0;
 }
 
 void IRLS::load_data(vector<double> & yv, vector<vector<double> > &Xv){
@@ -58,7 +61,7 @@ void IRLS::fit_model(){
     gsl_multifit_wlinear (X, w, z, bv, cov, &chisq, work);
     
     gsl_vector_free(z);
-    gsl_vector_free (w);
+    
     gsl_matrix_free (cov);
     gsl_multifit_linear_free (work);
     gsl_vector_free(mv);
@@ -70,18 +73,52 @@ void IRLS::fit_model(){
       if(fit_coef !=0){
 	gsl_vector_free(fit_coef);
       }
+      
+      compute_variance(w);
       fit_coef = bv;
+      gsl_vector_free (w);
       break;
     }
     
     old_chisq = chisq;
     mv = link->compute_mv(bv,X,n,p);
     gsl_vector_free(bv);
-   
+    gsl_vector_free (w);
   }
   
 
 }
+
+
+void IRLS::compute_variance(gsl_vector *w){
+  
+  if(VB!=0)
+    gsl_matrix_free(VB);
+  
+  VB = gsl_matrix_calloc(p,p);
+  gsl_matrix *W = gsl_matrix_calloc(n,n);
+  for(int i=0;i<n;i++){
+    gsl_matrix_set(W,i,i,gsl_vector_get(w,i));
+  }
+
+  gsl_matrix *t1 = gsl_matrix_calloc(p,n);
+  gsl_blas_dgemm(CblasTrans,CblasNoTrans,1,X,W,0,t1);
+  gsl_matrix *t2 = gsl_matrix_calloc(p,p);
+  gsl_blas_dgemm(CblasNoTrans,CblasNoTrans,1,t1,X,0,t2);
+  
+  // invert t2
+  int ss;
+  gsl_permutation * pp = gsl_permutation_alloc(p);
+  gsl_linalg_LU_decomp (t2, pp, &ss);
+  gsl_linalg_LU_invert (t2, pp, VB);
+  
+  gsl_permutation_free(pp);
+ 
+  gsl_matrix_free(t1);
+  gsl_matrix_free(t2);
+ 
+}
+
 
 
 vector<double> IRLS::get_fit_coef(){
@@ -91,6 +128,16 @@ vector<double> IRLS::get_fit_coef(){
     coev.push_back(gsl_vector_get(fit_coef,i));
   }
   return coev;
+}
+
+
+vector<double> IRLS::get_stderr(){
+  
+  vector<double> sev;
+  for(int i=0;i<p;i++){
+    sev.push_back(sqrt(gsl_matrix_get(VB,i,i)));
+  }
+  return sev;
 }
   
 
