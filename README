@@ -1,1 +1,18 @@
-A C++ implementation of IRLS for generalized linear models
+C++ implementation of IRLS for generalized linear models
+
+** Compile and Test
+prerequisite: Gnu scientific library and Gnu g++ compiler
+
+download source code and run make to compile 
+
+To test, generate simulated data by `R --vanilla < gen_data.R`. This script generates a test data file "test.dat" and run it through R (output shown in stdout). To run compiled c++ code: ` ./a.out -d test.dat` the fitted coefficients are displayed.
+
+
+** Extension to other GLM
+
+For a new link function, create a class mimicking class LogLink. The new class should be inherited from virtual base class "LinkFunc" and implements all required interfaces defined within.
+
+ 
+
+
+
