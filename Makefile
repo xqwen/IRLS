@@ -11,4 +11,4 @@ IRLS.o: IRLS.h IRLS.cc
 LogLink.o: LogLink.cc LogLink.h
 	g++ -c LogLink.cc
 clean:
-	rm *.o mvlr_mcmc
+	rm *.o a.out
