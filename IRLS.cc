@@ -77,7 +77,7 @@ void IRLS::fit_model(){
     gsl_matrix *cov = gsl_matrix_alloc(p, p);
     gsl_multifit_linear_workspace *work = gsl_multifit_linear_alloc (n, p);
     double chisq;
-    gsl_multifit_wlinear (X, w, z, bv, cov, &chisq, work);
+    gsl_multifit_wlinear_svd (X, w, z, GSL_DBL_EPSILON, &rank, bv, cov, &chisq, work);
     
     gsl_vector_free(z);
     

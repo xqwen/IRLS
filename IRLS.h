@@ -34,6 +34,7 @@ class IRLS {
   
   int n; // sample size;
   int p; // number of parameters (including intercept)
+  size_t rank; // of X (useful for p-values)
 
   LinkFunc *link;
   
@@ -48,6 +49,7 @@ class IRLS {
   void fit_model();
   vector<double> get_fit_coef();
   vector<double> get_stderr();
+  size_t get_rank_X() { return rank; };
 
  private:
   void compute_variance(gsl_vector *w);
