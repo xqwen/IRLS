@@ -1,14 +1,21 @@
+CXX=g++
+CXXFLAGS=-Wall -Wextra -g
+
 main: main.o controller.o parser.o IRLS.o LogLink.o
-	g++  -O3 main.o parser.o controller.o IRLS.o LogLink.o -lm -L /usr/local/lib -lgsl -lgslcblas
+	$(CXX) $(CXXFLAGS) main.o parser.o controller.o IRLS.o LogLink.o -lm -lgsl -lgslcblas -L /usr/local/lib
+test: test.o IRLS.o LogLink.o
+	$(CXX) $(CXXFLAGS) test.o IRLS.o LogLink.o -lm -lgsl -lgslcblas -L /usr/local/lib -o test_irls
 main.o: main.cc
-	g++ -c main.cc
+	$(CXX) $(CXXFLAGS) -c main.cc
+test.o: test.cpp
+	$(CXX) $(CXXFLAGS) -c test.cpp
 parser.o: parser.cc parser.h
-	g++ -c parser.cc
+	$(CXX) $(CXXFLAGS) -c parser.cc
 controller.o: controller.cc controller.h
-	g++ -c controller.cc
+	$(CXX) $(CXXFLAGS) -c controller.cc
 IRLS.o: IRLS.h IRLS.cc
-	g++ -c IRLS.cc
+	$(CXX) $(CXXFLAGS) -c IRLS.cc
 LogLink.o: LogLink.cc LogLink.h
-	g++ -c LogLink.cc
+	$(CXX) $(CXXFLAGS) -c LogLink.cc
 clean:
-	rm *.o a.out
+	rm -f *.o *~ a.out test_irls
