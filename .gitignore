@@ -1,4 +1,6 @@
 *.[oa]
-test.dat
-test.r.dat
+test*.dat
 a.out
+main
+test_irls
+.Rhistory

@@ -2,11 +2,27 @@
 *
 * This file uses the IRLS class on data files to check the results
 * with R's glm(). See the script test.R for more details.
+* Copyright (C) 2013,2017 Xioaquan Wen, Timothee Flutre
+*
+* This program is free software: you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation, either version 3 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include <cstdlib>
 #include <cmath>
+#include <cstring>
 
+#include <iostream>
 #include <vector>
 #include <string>
 using namespace std;
@@ -43,21 +59,21 @@ int main(int argc, char ** argv)
     }
   }
   
-  // load response vector
+  cout << "load response vector " << file_y << endl;
   size_t N = 200;
   gsl_vector * y = gsl_vector_alloc(N);
   FILE * f = fopen(file_y.c_str(), "r");
   gsl_vector_fread(f, y);
   fclose(f);
   
-  // load predictor matrix
+  cout << "load predictor matrix " << file_X << endl;
   size_t P = 5+1;
   gsl_matrix * X = gsl_matrix_alloc(N, P);
   f = fopen(file_X.c_str(), "r");
   gsl_matrix_fread(f, X);
   fclose(f);
   
-  // load offset vector
+  cout << "load offset vector " << file_offset << endl;
   gsl_vector * offset = NULL;
   if(! file_offset.empty()){
     offset = gsl_vector_alloc(N);
@@ -66,7 +82,7 @@ int main(int argc, char ** argv)
     fclose(f);
   }
   
-  // fit the model
+  cout << "fit the model" << endl;
   IRLS irls("log-link");
   irls.link->quasi = quasi_lik;
   irls.set_data(y, X, offset);

@@ -15,11 +15,15 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 ** Install and usage
 prerequisite: GNU Scientific Library (GSL) and C++ compiler (for instance g++)
 
+Modify the Makefile if necessary, then execute "make".
+
 To test, run `R --vanilla < test.R`. This will:
 - simulate data;
 - run the built-in glm() function (output shown on stdout);
 - save data in files (test_y.dat, test_X.dat and test_offset.dat);
 - compile c++ code (test.cpp) and run IRLS (output also shown on stdout).
+
+Look at test.cpp to see how to use the library in your own code.
 
 
 ** Extension to other GLM

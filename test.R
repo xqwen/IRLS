@@ -21,7 +21,7 @@ for(i in 1:N){
 }
 
 con <- file(description="test_y.dat", open="wb")
-writeBin(object=y, con=con)
+writeBin(object=as.numeric(y), con=con)
 close(con)
 
 con <- file(description="test_X.dat", open="wb")
@@ -40,10 +40,14 @@ if(sigma == 0){
 summary(fit)$dispersion
 coefficients(summary(fit))
 
+if(file.exists("test_irls"))
+  file.remove("test_irls")
+system("make test_irls")
+
 if(sigma == 0){
-  system("make test; ./test_irls --off test_offset.dat")
+  system("./test_irls --off test_offset.dat")
 } else
-  system("make test; ./test_irls --off test_offset.dat -q")
+  system("./test_irls --off test_offset.dat -q")
 
 quit(save="no")
 
@@ -59,7 +63,7 @@ irls <- function(y, X, threshold=1e-6, family, offset=NULL, verbose=0){
     stopifnot(length(offset) == nrow(X))
   } else
     offset <- rep(0, nrow(X))
-  
+
   ## internal functions ---------------
   init.mu <- function(y, family){
     if(family != "binomial"){
@@ -107,11 +111,11 @@ irls <- function(y, X, threshold=1e-6, family, offset=NULL, verbose=0){
     }
   }
   ##-----------------------------------
-  
+
   mu <- init.mu(y, family)
   old.chisq <- -1
   nb.iters <- 0
-  
+
   while(TRUE){
     if(verbose > 0)
       message(paste0("iter ", nb.iters))
@@ -139,7 +143,7 @@ irls <- function(y, X, threshold=1e-6, family, offset=NULL, verbose=0){
     mu <- compute.mu(wls.fit$beta.hat, X, offset)
     nb.iters <- nb.iters + 1
   }
-  
+
   return(list(beta.hat=wls.fit$beta.hat,
               se.beta.hat=sqrt(diag(var.beta.hat$cov)),
               pval.beta.hat=pval.beta.hat,
