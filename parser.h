@@ -12,6 +12,7 @@ class parser {
   
   vector<vector<double> > geno_vec;
   vector<vector<double> > pheno_vec;
+  vector<double> off_vec;
   
   map<int, string> pheno_map;
   map<int, string> geno_map;

@@ -50,22 +50,22 @@ void parser::process_line(string line){
   
 void parser::output(){
   
-  for(int i=0;i<pheno_vec.size();i++)
+  for(size_t i=0;i<pheno_vec.size();i++)
     printf("%10s  ", pheno_map[i].c_str());
     
   
-  for(int i=0;i<geno_vec.size();i++)
+  for(size_t i=0;i<geno_vec.size();i++)
     printf("%10s  ", geno_map[i].c_str());
 
   printf("\n");
 
-  int n = pheno_vec[0].size();
+  size_t n = pheno_vec[0].size();
   
-  for(int i=0;i<n;i++){
-    for(int j=0;j<pheno_vec.size();j++)
+  for(size_t i=0;i<n;i++){
+    for(size_t j=0;j<pheno_vec.size();j++)
       printf("%9.3f  ",pheno_vec[j][i]);
     
-    for(int j=0;j<geno_vec.size();j++)
+    for(size_t j=0;j<geno_vec.size();j++)
       printf("%.1f  ", geno_vec[j][i]);
     printf("\n");
   }
