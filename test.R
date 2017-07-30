@@ -21,7 +21,7 @@ for(i in 1:N){
 }
 
 con <- file(description="test_y.dat", open="wb")
-writeBin(object=y, con=con)
+writeBin(object=as.double(y), con=con)
 close(con)
 
 con <- file(description="test_X.dat", open="wb")

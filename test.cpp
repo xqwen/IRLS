@@ -5,10 +5,12 @@
 */
 
 #include <cstdlib>
+#include <cstring>
 #include <cmath>
 
 #include <vector>
 #include <string>
+#include <iostream>
 using namespace std;
 
 #include <gsl/gsl_vector.h>
@@ -65,7 +67,7 @@ int main(int argc, char ** argv)
     gsl_vector_fread(f, offset);
     fclose(f);
   }
-  
+    
   // fit the model
   IRLS irls("log-link");
   irls.link->quasi = quasi_lik;
