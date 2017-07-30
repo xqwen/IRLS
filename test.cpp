@@ -5,10 +5,12 @@
 */
 
 #include <cstdlib>
+#include <cstring>
 #include <cmath>
 
 #include <vector>
 #include <string>
+#include <iostream>
 using namespace std;
 
 #include <gsl/gsl_vector.h>
@@ -45,11 +47,11 @@ int main(int argc, char ** argv)
   
   // load response vector
   size_t N = 200;
+  FILE *f;
   gsl_vector * y = gsl_vector_alloc(N);
-  FILE * f = fopen(file_y.c_str(), "r");
+  f = fopen(file_y.c_str(), "r");
   gsl_vector_fread(f, y);
   fclose(f);
-  
   // load predictor matrix
   size_t P = 5+1;
   gsl_matrix * X = gsl_matrix_alloc(N, P);
@@ -65,7 +67,7 @@ int main(int argc, char ** argv)
     gsl_vector_fread(f, offset);
     fclose(f);
   }
-  
+    
   // fit the model
   IRLS irls("log-link");
   irls.link->quasi = quasi_lik;
