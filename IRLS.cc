@@ -108,8 +108,8 @@ void IRLS::fit_model()
 #if GSL_MAJOR_VERSION == 1 && GSL_MINOR_VERSION < 17
     gsl_multifit_wlinear_svd(X, w, z, GSL_DBL_EPSILON, &rank, bv, cov, &chisq, work);
 #elif GSL_MAJOR_VERSION == 2 && GSL_MINOR_VERSION > 2
-    gsl_multifit_wlinear(X, w, z, Bhat, covBhat, &rss, work);
-    (*rank) = gsl_multifit_linear_rank(GSL_DBL_EPSILON, work);
+    gsl_multifit_wlinear(X, w, z, bv, cov, &chisq, work);
+    rank = gsl_multifit_linear_rank(GSL_DBL_EPSILON, work);
 #else
     fprintf(stderr,
             "ERROR: your GSL is %s, but should be <= 1.16 or >= 2.3\n",
