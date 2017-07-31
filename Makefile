@@ -1,5 +1,6 @@
 CXX=g++
 CXXFLAGS=-Wall -Wextra -g
+# CXXFLAGS=-Wall -Wextra -g -I/path/to/include
 LDFLAGS=-L/usr/local/lib
 # LDFLAGS=-L/path/to/lib -Wl,-rpath -Wl,/path/to/lib
 LDLIBS=-lm -lgsl -lgslcblas
