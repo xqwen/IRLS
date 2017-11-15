@@ -17,12 +17,20 @@ prerequisite: GNU Scientific Library (GSL <= 1.16 or >= 2.3)
 and C++ compiler (for instance g++)
 
 Modify the Makefile if necessary, then execute "make".
+If the GSL is installed in your home directory,
+you can use the following command:
+
+make CXXFLAGS="-Wall -Wextra -g -I$HOME/include" \
+     LDFLAGS="-L$HOME/lib -Wl,-rpath -Wl,$HOME/lib"
 
 To test, run `R --vanilla < test.R`. This will:
 - simulate data;
 - run the built-in glm() function (output shown on stdout);
 - save data in files (test_y.dat, test_X.dat and test_offset.dat);
 - compile c++ code (test.cpp) and run IRLS (output also shown on stdout).
+
+You may have to edit test.R if you installed the GSL in your
+home directory.
 
 Look at test.cpp to see how to use the library in your own code.
 

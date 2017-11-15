@@ -42,7 +42,13 @@ coefficients(summary(fit))
 
 if(file.exists("test_irls"))
   file.remove("test_irls")
-system("make test_irls")
+cmd <- "make test_irls"
+## uncomment the next few lines if you installed the GSL
+## in your home directory:
+## cmd <- paste0("make test_irls",
+##               " CXXFLAGS=\"-Wall -Wextra -g -I$HOME/include\"",
+##               " LDFLAGS=\"-L$HOME/lib -Wl,-rpath -Wl,$HOME/lib\"")
+system(cmd)
 
 if(sigma == 0){
   system("./test_irls --off test_offset.dat")
