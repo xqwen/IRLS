@@ -13,7 +13,8 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 
 ** Install and usage
-prerequisite: GNU Scientific Library (GSL) and C++ compiler (for instance g++)
+prerequisite: GNU Scientific Library (GSL <= 1.16 or >= 2.3)
+and C++ compiler (for instance g++)
 
 Modify the Makefile if necessary, then execute "make".
 
